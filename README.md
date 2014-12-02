@@ -104,7 +104,7 @@ There are 2 ways to use Jin:
     
     Again You can implement your own logic here - for example using Spring Context to locate resources on the ClassPath.
 - Another thing, you'll want to inject into Translator is an instance of
-- 
+
 ```
 pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry
 ```
