@@ -1,0 +1,12 @@
+test.string1.trans: "String 1 translation"
+test.string2.trans: "String 2 translation"
+test:
+    compound:
+           str1: "Compound String 1 translation"
+    compound:
+           str2: "Compound String 2 translation"
+    compound2:
+            str1: "Compound2 String 1 translation"
+    compound3:
+            deeper:
+                str1: "Compound 3 Deeper String 1 translation"
