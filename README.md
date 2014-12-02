@@ -31,6 +31,7 @@ There are 2 ways to use Jin:
     ```
     TranslationContext::setTranslator(Translator translator);
     ```
+    
 ### Initialization
 
  The main object is the Translator:
