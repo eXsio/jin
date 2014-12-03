@@ -70,11 +70,11 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
             }
             return this.prefixMap.get(translatedClass);
         } else {
-            return null;
+            return "";
         }
     }
 
-    private void updateMap(Class translatedClass) {
+    protected void updateMap(Class translatedClass) {
         Annotation annotation = this.getAnnotationForClass(translatedClass);
         String prefix;
         if (annotation != null) {
@@ -86,7 +86,7 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
         this.prefixMap.put(translatedClass, prefix);
     }
 
-    private Annotation getAnnotationForClass(Class translatedClass) {
+    protected Annotation getAnnotationForClass(Class translatedClass) {
         do {
             Annotation annotation = translatedClass.getAnnotation(TranslationPrefix.class);
             if (annotation != null) {
@@ -99,7 +99,7 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
         return null;
     }
 
-    private Class getCallingClass() {
+    protected Class getCallingClass() {
         StackTraceElement[] stack = new Exception().getStackTrace();
         for (int i = 0; i < stack.length; i++) {
             try {
@@ -116,7 +116,7 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
         return null;
     }
 
-    private boolean isInternalClass(Class classObj) {
+    protected boolean isInternalClass(Class classObj) {
         for (Class internalClass : this.internalClasses) {
             if (internalClass.isAssignableFrom(classObj) || internalClass.equals(classObj)) {
                 return true;
