@@ -6,11 +6,11 @@ import java.util.Locale;
  *
  * @author exsio
  */
-public class LocaleProviderImpl implements LocaleProvider {
+public class DefaultLocaleProviderImpl implements LocaleProvider {
 
     protected final String language;
 
-    public LocaleProviderImpl(String language) {
+    public DefaultLocaleProviderImpl(String language) {
         this.language = language;
     }
 

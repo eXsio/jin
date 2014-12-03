@@ -33,6 +33,7 @@ public class YamlTranslationFileLoaderImpl implements TranslationFileLoader {
         return parsedMap;
     }
 
+    @Override
     public void setLocator(TranslationFileLocator locator) {
         this.locator = locator;
     }
