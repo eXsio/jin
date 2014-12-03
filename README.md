@@ -43,7 +43,7 @@ There are 2 ways to use Jin:
     
     ---
     
-    There is also a feature called TranslationPrefix. It is obvious that You'll want to use the translation service multiple times in one class (eg. when creating a table, You have to translate all the column headers). It would be pointless to create a long translation string for each column (eg. "en.someclass.sometable.somecolumn"). Here comes the ``` @TranslationPrefix("some.prefix")  ``` annotation. You can annotate the class with it, and on every call to ```TranslationContext::t(String subject)``` or ```Translator::translate(String subject)``` the prefix will be appended to the beginning of the subject. 
+    There is also a feature called ```TranslationPrefix```. It is obvious that You'll want to use the translation service multiple times in one class (eg. when creating a table, You have to translate all the column headers). It would be pointless to create a long translation string for each column (eg. "en.someclass.sometable.somecolumn"). Here comes the ``` @TranslationPrefix("some.prefix")  ``` annotation. You can annotate the class with it, and on every call to ```TranslationContext::t(String subject)``` or ```Translator::translate(String subject)``` the prefix will be appended to the beginning of the subject. 
     
     The full example of usage:
     
@@ -97,6 +97,7 @@ Here is the full initialization example:
         }
     });
     translator.setPluralizators(pluralizators);
+    translator.setPrefixManager(new TranslationPrefixManagerImpl());
     translator.registerTranslationFile("pl", "PATH_TO_POLISH_YAML_TRANSLATION_FILE");
     translator.registerTranslationFile("en", "PATH_TO_ENGLISH_YAML_TRANSLATION_FILE");
     try {
@@ -104,12 +105,6 @@ Here is the full initialization example:
     } catch (TranslationInitializationException ex) {
         //Handle the exception
     }
-```
-
-Optionally You can set the TranslationPrefixManager, if You want to use that feature (described in the Usage part).
-
-```
-    translator.setPrefixManager(new TranslationPrefixManagerImpl());
 ```
 
 ---
@@ -177,8 +172,7 @@ After instantiating it You have to inject an instance of:
     ```
     
     Again You can implement your own logic here - for example using Spring Context to locate resources on the ClassPath.
-- Another thing, you'll want to inject into Translator is an instance of
-
+- 
     ```
     pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry
     ```
@@ -196,7 +190,13 @@ After instantiating it You have to inject an instance of:
     pl.exsio.jin.pluralizator.EnglishTranslationPluralizatorImpl
     ```
 
-- In the end You'll want to register some YAML translation files :)
+- Optionally You can set the ```TranslationPrefixManager```, if You want to use that feature (described in the Usage part).
+
+```
+    translator.setPrefixManager(new TranslationPrefixManagerImpl());
+```
+
+In the end You'll want to register some YAML translation files.
 
 After the Translator object is set and ready to use, just call the 
 
