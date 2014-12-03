@@ -34,19 +34,91 @@ There are 2 ways to use Jin:
     ```
     
     You have to remember that as the TranslationContext uses static imports, it can use only one Translator (the one, that was initialized last). You can of course manually set the Translator object using static
+    
     ```
     TranslationContext::setTranslator(Translator translator);
     ```
     
-### Initialization
+    ---
+    
+    There is also a feature called TranslationPrefix. It is obvious that You'll want to use the translation service multiple times in one class (eg. when creating a table, You have to translate all the column headers). It would be pointless to create a long translation string for each column (eg. "en.someclass.sometable.somecolumn"). Here comes the ``` @TranslationPrefix("some.prefix")  ``` annotation. You can annotate the class with it, and on every call to ```TranslationContext::t(String subject)``` or ```Translator::translate(String subject)``` the prefix will be appended to the beginning of the subject. 
+    
+    The full example of usage:
+    
+    ```
+    
+   package somepackage;
 
- The main object is the Translator:
+   import pl.exsio.jin.annotation.TranslationPrefix;
+   import static pl.exsio.jin.translationcontext.TranslationContext.t;
+   import pl.exsio.jin.translator.Translator;
+
+   @TranslationPrefix("somepackage.someclass")
+   public class SomeClass {
+      
+      private final Translator translator;
+  
+      public SomeClass(Translator translator) {
+          this.translator = translator;
+      }
+      
+      public void useTranslatorExample() {
+          System.out.append(this.translator.translate("translator_usage"));
+      }
+      
+      public void useTranslationContextExample() {
+          System.out.println(t("translation_context_usage"));
+      }
+  }
+        
+   ```
+    
+### Installation / Initialization
+
+Here is the full initialization example:
+
+```
+    TranslatorImpl translator = new TranslatorImpl();
+    TranslationFileLoader loader = new YamlTranslationFileLoaderImpl();
+    loader.setLocator(new DefaultTranslationFileLocatorImpl());
+    translator.setLoader(loader);
+    translator.setLocaleProviderProvider(
+        new DefaultLocaleProviderProviderImpl(
+            new DefaultLocaleProviderImpl("en")
+        )
+    );
+    TranslationPluralizatorRegistry pluralizators = new TranslationPluralizatorRegistryImpl();
+    pluralizators.setPuralizators(new HashMap() {
+        {
+            put("pl", new PolishTranslationPluralizatorImpl());
+            put("en", new EnglishTranslationPluralizatorImpl());
+        }
+    });
+    translator.setPluralizators(pluralizators);
+    translator.registerTranslationFile("pl", "PATH_TO_POLISH_YAML_TRANSLATION_FILE");
+    translator.registerTranslationFile("en", "PATH_TO_ENGLISH_YAML_TRANSLATION_FILE");
+    try {
+        translator.init();
+    } catch (TranslationInitializationException ex) {
+        //Handle the exception
+    }
+```
+
+Optionally You can set the TranslationPrefixManager, if You want to use that feature (described in the Usage part).
+
+```
+    translator.setPrefixManager(new TranslationPrefixManagerImpl());
+```
+
+---
+
+The main object is the Translator:
  
  ```
  pl.exsio.jin.translator.Translator
  ```
  
- After instantiating it You have to inject an instance of:
+After instantiating it You have to inject an instance of:
  - 
     
     ```
@@ -105,22 +177,22 @@ There are 2 ways to use Jin:
     Again You can implement your own logic here - for example using Spring Context to locate resources on the ClassPath.
 - Another thing, you'll want to inject into Translator is an instance of
 
-```
-pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry
-```
+    ```
+    pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry
+    ```
 
-This is the object, that keeps all 
+    This is the object, that keeps all 
 
-```
-pl.exsio.jin.pluralizator.TranslationPluralizator
-```
+    ```
+    pl.exsio.jin.pluralizator.TranslationPluralizator
+    ```
 
-instances and can provide the Pluralizator for a specific language. By default Jin has 2 implementations of Pluralizator:
+    instances and can provide the Pluralizator for a specific language. By default Jin has 2 implementations of     Pluralizator:
 
-```
-pl.exsio.jin.pluralizator.PolishTranslationPluralizatorImpl
-pl.exsio.jin.pluralizator.EnglishTranslationPluralizatorImpl
-```
+    ```
+    pl.exsio.jin.pluralizator.PolishTranslationPluralizatorImpl
+    pl.exsio.jin.pluralizator.EnglishTranslationPluralizatorImpl
+    ```
 
 - In the end You'll want to register some YAML translation files :)
 
