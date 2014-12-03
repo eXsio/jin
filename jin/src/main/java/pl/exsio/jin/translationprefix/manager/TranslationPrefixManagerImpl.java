@@ -100,25 +100,24 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
     }
 
     protected Class getCallingClass() {
-        StackTraceElement[] stack = new Exception().getStackTrace();
-        for (int i = 0; i < stack.length; i++) {
+        StackTraceElement[] stackTrace = new Exception().getStackTrace();
+        for (StackTraceElement element : stackTrace) {
             try {
-                String className = stack[i].getClassName();
-                Class classObj = Class.forName(className);
-                if (!this.isInternalClass(classObj)) {
-                    return classObj;
+                Class candidateClass = Class.forName(element.getClassName());
+                if (!this.isInternalClass(candidateClass)) {
+                    return candidateClass;
                 }
             } catch (ClassNotFoundException ex) {
-                continue;
+                ex.printStackTrace(System.err);
             }
         }
 
         return null;
     }
 
-    protected boolean isInternalClass(Class classObj) {
+    protected boolean isInternalClass(Class candidateClass) {
         for (Class internalClass : this.internalClasses) {
-            if (internalClass.isAssignableFrom(classObj) || internalClass.equals(classObj)) {
+            if (internalClass.isAssignableFrom(candidateClass) || internalClass.equals(candidateClass)) {
                 return true;
             }
         }
