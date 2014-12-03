@@ -41,7 +41,7 @@ public class TranslationPluralizatorRegistryImpl implements TranslationPluraliza
     }
 
     @Override
-    public void setPuralizators(Map<String, TranslationPluralizator> pluralizators) {
+    public void setPluralizators(Map<String, TranslationPluralizator> pluralizators) {
         if (pluralizators != null) {
             this.pluralizators = pluralizators;
         }

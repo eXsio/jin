@@ -34,7 +34,7 @@ public interface TranslationPluralizatorRegistry {
 
     Map<String, TranslationPluralizator> getPluralizators();
 
-    void setPuralizators(Map<String, TranslationPluralizator> pluralizators);
+    void setPluralizators(Map<String, TranslationPluralizator> pluralizators);
 
     void registerPluralizator(String lang, TranslationPluralizator pluralizator);
 
