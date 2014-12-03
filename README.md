@@ -90,7 +90,7 @@ Here is the full initialization example:
         )
     );
     TranslationPluralizatorRegistry pluralizators = new TranslationPluralizatorRegistryImpl();
-    pluralizators.setPuralizators(new HashMap() {
+    pluralizators.setPluralizators(new HashMap() {
         {
             put("pl", new PolishTranslationPluralizatorImpl());
             put("en", new EnglishTranslationPluralizatorImpl());
