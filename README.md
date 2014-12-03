@@ -1,9 +1,9 @@
 # Jin
 [![Build Status](https://travis-ci.org/eXsio/jin.svg)](https://travis-ci.org/eXsio/jin)
 
-Jin is a Java INternationalization library. It was created, because I couldn't find any i18n solution, that would be configurable enough and easy to use for my personal usage.
+### Overview
 
-### Capabilities
+Jin is a Java INternationalization library. It was created, because I couldn't find any i18n solution, that would be configurable enough and easy to use for my personal usage. 
 
 Jin can (by default) load a number of YAML files, containing translations. Those files can be formatted in a simple key - value pairs or they can have nested structure (see tests for more details). 
 
