@@ -209,3 +209,7 @@ pl.exsio.jin.ex.TranslationInitializationException
 ```
 
 After initializing the Translator sets TranslatorContext's Translator instance to itself.
+
+### BUGS
+
+If You find any bugs, feel free to submit PR or create an issue on GitHub: https://github.com/eXsio/jin
