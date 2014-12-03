@@ -11,6 +11,7 @@ import pl.exsio.jin.locale.provider.provider.LocaleProviderProvider;
 import pl.exsio.jin.pluralizator.TranslationPluralizator;
 import pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry;
 import pl.exsio.jin.translationcontext.TranslationContext;
+import pl.exsio.jin.translationprefix.manager.TranslationPrefixManager;
 
 /**
  *
@@ -31,6 +32,8 @@ public class TranslatorImpl implements Translator {
     protected Locale currentLocale;
 
     protected TranslationPluralizatorRegistry pluralizators;
+
+    protected TranslationPrefixManager prefixManager;
 
     public TranslatorImpl() {
         this.registeredFiles = new LinkedHashMap<>();
@@ -85,6 +88,7 @@ public class TranslatorImpl implements Translator {
 
     @Override
     public String translate(String subject) {
+        subject = this.formatSubject(subject);
         Map<String, String> translationsMap = this.getTranslationMap(this.getCurrentLocale().getLanguage());
         if (translationsMap instanceof Map && translationsMap.containsKey(subject)) {
             Object translation = translationsMap.get(subject);
@@ -105,6 +109,14 @@ public class TranslatorImpl implements Translator {
         return options;
     }
 
+    protected String formatSubject(String subject) {
+        if (this.prefixManager != null) {
+            return this.prefixManager.getPrefixForTranslatedClass() + subject;
+        } else {
+            return subject;
+        }
+    }
+
     protected Locale getCurrentLocale() {
         return this.localeProviderProvider.getLocaleProvider().getLocale();
     }
@@ -119,6 +131,10 @@ public class TranslatorImpl implements Translator {
 
     public void setPluralizators(TranslationPluralizatorRegistry pluralizators) {
         this.pluralizators = pluralizators;
+    }
+
+    public void setPrefixManager(TranslationPrefixManager prefixManager) {
+        this.prefixManager = prefixManager;
     }
 
 }
