@@ -23,12 +23,10 @@
  */
 package pl.exsio.jin.translationprefix.manager;
 
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import pl.exsio.jin.annotation.TranslationPrefix;
 import pl.exsio.jin.file.loader.TranslationFileLoader;
 import pl.exsio.jin.file.locator.TranslationFileLocator;
 import pl.exsio.jin.locale.provider.LocaleProvider;
@@ -36,6 +34,7 @@ import pl.exsio.jin.locale.provider.provider.LocaleProviderProvider;
 import pl.exsio.jin.pluralizator.TranslationPluralizator;
 import pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry;
 import pl.exsio.jin.translationcontext.TranslationContext;
+import pl.exsio.jin.translationprefix.retriever.TranslationPrefixRetriever;
 import pl.exsio.jin.translator.Translator;
 
 public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
@@ -51,6 +50,7 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
                 add(TranslationPrefixManager.class);
                 add(Translator.class);
                 add(TranslationContext.class);
+                add(TranslationPrefixRetriever.class);
                 add(TranslationPluralizator.class);
                 add(TranslationPluralizatorRegistry.class);
                 add(TranslationFileLoader.class);
@@ -75,28 +75,7 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
     }
 
     protected void updateMap(Class translatedClass) {
-        Annotation annotation = this.getAnnotationForClass(translatedClass);
-        String prefix;
-        if (annotation != null) {
-            TranslationPrefix prefixObj = (TranslationPrefix) annotation;
-            prefix = prefixObj.value() + ".";
-        } else {
-            prefix = "";
-        }
-        this.prefixMap.put(translatedClass, prefix);
-    }
-
-    protected Annotation getAnnotationForClass(Class translatedClass) {
-        do {
-            Annotation annotation = translatedClass.getAnnotation(TranslationPrefix.class);
-            if (annotation != null) {
-                return annotation;
-            } else {
-                translatedClass = translatedClass.getEnclosingClass();
-            }
-        } while (translatedClass != null);
-
-        return null;
+        this.prefixMap.put(translatedClass, TranslationPrefixRetriever.getTranslationPrefix(translatedClass));
     }
 
     protected Class getCallingClass() {
