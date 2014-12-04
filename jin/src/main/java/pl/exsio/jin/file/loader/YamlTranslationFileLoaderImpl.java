@@ -37,19 +37,21 @@ public class YamlTranslationFileLoaderImpl implements TranslationFileLoader {
     @Override
     public Map<String, String> loadFile(String filePath) throws IOException {
         InputStream input = this.locator.locateFile(filePath);
-        Map<String, Object> loadedMap = (Map<String, Object>) new Yaml().load(input);
+        Map<Object, Object> loadedMap = (Map<Object, Object>) new Yaml().load(input);
         return this.parseMap(loadedMap, null);
     }
 
-    protected Map<String, String> parseMap(Map<String, Object> map, String parentKey) {
+    protected Map<String, String> parseMap(Map<Object, Object> map, String parentKey) {
         Map<String, String> parsedMap = new HashMap<>();
-        for (String key : map.keySet()) {
-            String mapKey = parentKey != null ? parentKey + "." + key : key;
-            Object value = map.get(key);
-            if (value instanceof String) {
-                parsedMap.put(mapKey, (String) value);
-            } else if (value instanceof Map) {
-                parsedMap.putAll(this.parseMap((Map<String, Object>) value, mapKey));
+        for (Object key : map.keySet()) {
+            if (key instanceof String) {
+                String mapKey = parentKey != null ? parentKey + "." + key.toString() : key.toString();
+                Object value = map.get(key);
+                if (value instanceof String) {
+                    parsedMap.put(mapKey, (String) value);
+                } else if (value instanceof Map) {
+                    parsedMap.putAll(this.parseMap((Map<Object, Object>) value, mapKey));
+                }
             }
         }
 
