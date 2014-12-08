@@ -47,6 +47,8 @@ There are 2 ways to use Jin:
     
     The full example of usage:
     
+    Translated class:
+    
     ```
     
    package somepackage;
@@ -73,6 +75,16 @@ There are 2 ways to use Jin:
       }
   }
         
+   ```
+   
+   YAML translation  file:
+   
+   ```
+   somepackage:
+      someclass:
+        translator_usage: Translator usage translation
+        translation_context_usage: Translation Context usage translation
+   
    ```
     
 ### Installation / Initialization
