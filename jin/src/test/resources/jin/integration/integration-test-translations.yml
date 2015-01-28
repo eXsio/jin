@@ -1,0 +1,6 @@
+jin:
+    integration:
+        translator_usage: "Translator usage"
+        translation_context_usage: "Translation context usage"
+        pluralize_translator_usage: "%count% apple|%count% apples"
+        pluralize_translation_context_usage: "%count% pear|%count% pears"
