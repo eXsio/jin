@@ -3,7 +3,6 @@ test.string2.trans: "String 2 translation"
 test:
     compound:
            str1: "Compound String 1 translation" #this should be overwritten by the next entry
-    compound:
            str2: "Compound String 2 translation"
     compound2:
             str1: "Compound2 String 1 translation"

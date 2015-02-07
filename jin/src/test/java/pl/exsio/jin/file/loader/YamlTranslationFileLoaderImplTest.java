@@ -43,7 +43,7 @@ public class YamlTranslationFileLoaderImplTest extends JinBaseTest {
         YamlTranslationFileLoaderImpl instance = new YamlTranslationFileLoaderImpl();
         instance.setLocator(this.getLocator());
         Map<String, String> result = instance.loadFile(TEST_TRANSLATION_PATH);
-        assertTrue(result.size() == 6);
+        assertTrue(result.size() == 7);
         assertEquals(result.get("test.string1.trans"), "String 1 translation");
         assertEquals(result.get("test.string2.trans"), "String 2 translation");
         assertEquals(result.get("test.compound.str2"), "Compound String 2 translation");
