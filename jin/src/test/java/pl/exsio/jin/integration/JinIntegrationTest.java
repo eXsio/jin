@@ -39,6 +39,7 @@ import pl.exsio.jin.pluralizator.EnglishTranslationPluralizatorImpl;
 import pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry;
 import pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistryImpl;
 import pl.exsio.jin.translationprefix.manager.TranslationPrefixManagerImpl;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.jin.translator.Translator;
 import pl.exsio.jin.translator.TranslatorImpl;
 
@@ -60,6 +61,7 @@ public class JinIntegrationTest {
         assertEquals(subject.getPluralizeTranslatorResult(3), "3 apples");
         assertEquals(subject.getPluralizeTranslationContextResult(1), "1 pear");
         assertEquals(subject.getPluralizeTranslationContextResult(3), "3 pears");
+        assertEquals(t("raw text for translation"), "translated raw text");
     }
 
     private Translator getTranslator() throws TranslationInitializationException, URISyntaxException {
