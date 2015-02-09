@@ -28,6 +28,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
 import org.junit.Test;
 import pl.exsio.jin.ex.TranslationInitializationException;
 import pl.exsio.jin.file.loader.TranslationFileLoader;
@@ -49,18 +50,40 @@ import pl.exsio.jin.translator.TranslatorImpl;
  */
 public class JinIntegrationTest {
 
+    private Translator t;
+
+    private TranslatedClass subject;
+
+    @Before
+    public void beforeTest() throws TranslationInitializationException, URISyntaxException {
+        this.t = this.getTranslator();
+        this.subject = new TranslatedClass(t);
+    }
+
     @Test
-    public void testIntegration() throws TranslationInitializationException, URISyntaxException {
-
-        Translator t = this.getTranslator();
-        TranslatedClass subject = new TranslatedClass(t);
-
+    public void testTranslatorResult() {
         assertEquals(subject.getTranslatorResult(), "Translator usage");
+    }
+
+    @Test
+    public void testTranslationContextResult() {
         assertEquals(subject.getTranslationContextResult(), "Translation context usage");
+    }
+
+    @Test
+    public void testPluralizeTranslatorResult() {
         assertEquals(subject.getPluralizeTranslatorResult(1), "1 apple");
         assertEquals(subject.getPluralizeTranslatorResult(3), "3 apples");
+    }
+
+    @Test
+    public void testPluralizeTranslationContextResult() {
         assertEquals(subject.getPluralizeTranslationContextResult(1), "1 pear");
         assertEquals(subject.getPluralizeTranslationContextResult(3), "3 pears");
+    }
+
+    @Test
+    public void testRawTextResult() {
         assertEquals(t("raw text for translation"), "translated raw text");
     }
 
