@@ -39,5 +39,5 @@ public interface Translator {
     
     String pluralize(String options, int count);
 
-    Map<String, String> getTranslations();
+    Map<String, String> getTranslations(String lang);
 }

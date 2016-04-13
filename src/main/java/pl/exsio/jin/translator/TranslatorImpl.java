@@ -82,7 +82,7 @@ public class TranslatorImpl implements Translator {
     }
 
     private void loadFile(String lang, String filePath) throws TranslationInitializationException {
-        Map<String, String> translationMap = getTranslationMap(lang);
+        Map<String, String> translationMap = getTranslations(lang);
         try {
             translationMap.putAll(loader.loadFile(filePath));
         } catch (IOException ex) {
@@ -94,7 +94,8 @@ public class TranslatorImpl implements Translator {
         this.registeredFiles = registeredFiles;
     }
 
-    private Map<String, String> getTranslationMap(String lang) {
+    @Override
+    public Map<String, String> getTranslations(String lang) {
         if (!translations.containsKey(lang)) {
             translations.put(lang, new LinkedHashMap<String, String>());
         }
@@ -113,7 +114,7 @@ public class TranslatorImpl implements Translator {
     @Override
     public String translate(String subject) {
         subject = formatSubject(subject);
-        Map<String, String> translationsMap = getTranslationMap(getCurrentLocale().getLanguage());
+        Map<String, String> translationsMap = getTranslations(getCurrentLocale().getLanguage());
         if (translationsMap instanceof Map && translationsMap.containsKey(subject)) {
             Object translation = translationsMap.get(subject);
             return translation instanceof String ? ((String) translation) : subject;
@@ -131,11 +132,6 @@ public class TranslatorImpl implements Translator {
             }
         }
         return options;
-    }
-
-    @Override
-    public Map<String, String> getTranslations() {
-        return getTranslationMap(getCurrentLocale().getLanguage());
     }
 
     private String formatSubject(String subject) {
