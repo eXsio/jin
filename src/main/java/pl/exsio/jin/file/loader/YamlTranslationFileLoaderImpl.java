@@ -23,12 +23,13 @@
  */
 package pl.exsio.jin.file.loader;
 
+import org.yaml.snakeyaml.Yaml;
+import pl.exsio.jin.file.locator.TranslationFileLocator;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import org.yaml.snakeyaml.Yaml;
-import pl.exsio.jin.file.locator.TranslationFileLocator;
 
 public class YamlTranslationFileLoaderImpl implements TranslationFileLoader {
 
@@ -42,6 +43,9 @@ public class YamlTranslationFileLoaderImpl implements TranslationFileLoader {
     public Map<String, String> loadFile(String filePath) throws IOException {
         InputStream input = locator.locateFile(filePath);
         Map<Object, Object> loadedMap = (Map<Object, Object>) new Yaml().load(input);
+        if (loadedMap == null) {
+            throw new IOException("There's something wrong with the translation file. Is it empty?");
+        }
         return this.parseMap(loadedMap, null);
     }
 
