@@ -23,11 +23,12 @@
  */
 package pl.exsio.jin.translationprefix.retriever;
 
-import java.lang.annotation.Annotation;
+import com.google.common.base.Optional;
 import pl.exsio.jin.annotation.TranslationPrefix;
 
+import java.lang.annotation.Annotation;
+
 /**
- *
  * @author exsio
  */
 public class TranslationPrefixRetriever {
@@ -37,11 +38,10 @@ public class TranslationPrefixRetriever {
     private final static String TRANSLATION_STRING_CONNECTOR = ".";
 
     public static String getTranslationPrefix(Class translatedClass) {
-        Annotation annotation = getAnnotationForClass(translatedClass);
+        Optional<TranslationPrefix> annotation = getAnnotationForClass(translatedClass);
         String prefix;
-        if (annotation != null) {
-            TranslationPrefix prefixObj = (TranslationPrefix) annotation;
-            prefix = getPrefixString(prefixObj);
+        if (annotation.isPresent()) {
+            prefix = getPrefixString(annotation.get());
         } else {
             prefix = EMPTY_PREFIX;
         }
@@ -52,16 +52,16 @@ public class TranslationPrefixRetriever {
         return new StringBuilder(prefixObj.value()).append(TRANSLATION_STRING_CONNECTOR).toString();
     }
 
-    private static Annotation getAnnotationForClass(Class translatedClass) {
+    private static Optional<TranslationPrefix> getAnnotationForClass(Class translatedClass) {
         do {
             Annotation annotation = translatedClass.getAnnotation(TranslationPrefix.class);
             if (annotation != null) {
-                return annotation;
+                return Optional.of((TranslationPrefix) annotation);
             } else {
                 translatedClass = translatedClass.getEnclosingClass();
             }
         } while (translatedClass != null);
 
-        return null;
+        return Optional.absent();
     }
 }
