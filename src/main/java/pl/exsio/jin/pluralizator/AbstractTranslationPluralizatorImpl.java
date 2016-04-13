@@ -31,11 +31,11 @@ public abstract class AbstractTranslationPluralizatorImpl implements Translation
 
     @Override
     public String pluralize(String options, int count) {
-        String[] choices = this.splitChoices(options);
-        int index = this.getChoicesIndex(choices, count);
-        if (choices.length > 0 && choices.length <= this.getMaxChoicesCount() && index >= 0) {
+        String[] choices = splitChoices(options);
+        int index = getChoicesIndex(choices, count);
+        if (choices.length > 0 && choices.length <= getMaxChoicesCount() && index >= 0) {
             if (index < choices.length) {
-                return this.applyCount(choices[index], count);
+                return applyCount(choices[index], count);
             } else {
                 return "invalid choice index: " + index + ", options size: " + choices.length;
             }

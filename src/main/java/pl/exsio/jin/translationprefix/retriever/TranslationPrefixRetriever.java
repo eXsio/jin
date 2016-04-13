@@ -32,9 +32,9 @@ import pl.exsio.jin.annotation.TranslationPrefix;
  */
 public class TranslationPrefixRetriever {
 
-    public final static String EMPTY_PREFIX = "";
+    private final static String EMPTY_PREFIX = "";
 
-    public final static String TRANSLATION_STRING_CONNECTOR = ".";
+    private final static String TRANSLATION_STRING_CONNECTOR = ".";
 
     public static String getTranslationPrefix(Class translatedClass) {
         Annotation annotation = getAnnotationForClass(translatedClass);

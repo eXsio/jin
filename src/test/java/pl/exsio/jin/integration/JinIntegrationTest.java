@@ -23,11 +23,6 @@
  */
 package pl.exsio.jin.integration;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import pl.exsio.jin.ex.TranslationInitializationException;
@@ -35,17 +30,23 @@ import pl.exsio.jin.file.loader.TranslationFileLoader;
 import pl.exsio.jin.file.loader.YamlTranslationFileLoaderImpl;
 import pl.exsio.jin.file.locator.DefaultTranslationFileLocatorImpl;
 import pl.exsio.jin.locale.provider.DefaultLocaleProviderImpl;
-import pl.exsio.jin.locale.provider.provider.DefaultLocaleProviderProviderImpl;
+import pl.exsio.jin.locale.provider.factory.DefaultLocaleProviderFactoryImpl;
 import pl.exsio.jin.pluralizator.EnglishTranslationPluralizatorImpl;
 import pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry;
 import pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistryImpl;
 import pl.exsio.jin.translationprefix.manager.TranslationPrefixManagerImpl;
-import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.jin.translator.Translator;
 import pl.exsio.jin.translator.TranslatorImpl;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertEquals;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
+
 /**
- *
  * @author exsio
  */
 public class JinIntegrationTest {
@@ -88,15 +89,11 @@ public class JinIntegrationTest {
     }
 
     private Translator getTranslator() throws TranslationInitializationException, URISyntaxException {
-        TranslatorImpl translator = new TranslatorImpl();
-        TranslationFileLoader loader = new YamlTranslationFileLoaderImpl();
-        loader.setLocator(new DefaultTranslationFileLocatorImpl());
-        translator.setLoader(loader);
-        translator.setLocaleProviderProvider(
-                new DefaultLocaleProviderProviderImpl(
-                        new DefaultLocaleProviderImpl("en")
-                )
-        );
+
+        TranslationFileLoader loader = new YamlTranslationFileLoaderImpl(new DefaultTranslationFileLocatorImpl());
+        TranslatorImpl translator = new TranslatorImpl(loader, new DefaultLocaleProviderFactoryImpl(
+                new DefaultLocaleProviderImpl("en")
+        ));
         TranslationPluralizatorRegistry pluralizators = new TranslationPluralizatorRegistryImpl();
         pluralizators.setPluralizators(new HashMap() {
             {

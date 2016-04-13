@@ -25,19 +25,19 @@ package pl.exsio.jin.translator;
 
 import pl.exsio.jin.ex.TranslationInitializationException;
 
-/**
- *
- * @author exsio
- */
+import java.util.Map;
+
 public interface Translator {
 
-    public void init() throws TranslationInitializationException;
+    void init() throws TranslationInitializationException;
     
-    public boolean isInitialized();
+    boolean isInitialized();
 
-    public boolean registerTranslationFile(String lang, String filePath);
+    boolean registerTranslationFile(String lang, String filePath);
 
-    public String translate(String subject);
+    String translate(String subject);
     
-    public String pluralize(String options, int count);
+    String pluralize(String options, int count);
+
+    Map<String, String> getTranslations();
 }

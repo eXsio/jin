@@ -31,7 +31,7 @@ import java.util.Locale;
  */
 public class DefaultLocaleProviderImpl implements LocaleProvider {
 
-    protected final String language;
+    private final String language;
 
     public DefaultLocaleProviderImpl(String language) {
         this.language = language;
@@ -39,7 +39,7 @@ public class DefaultLocaleProviderImpl implements LocaleProvider {
 
     @Override
     public Locale getLocale() {
-        return new Locale(this.language);
+        return new Locale(language);
     }
 
 }

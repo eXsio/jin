@@ -32,11 +32,15 @@ import pl.exsio.jin.file.locator.TranslationFileLocator;
 
 public class YamlTranslationFileLoaderImpl implements TranslationFileLoader {
 
-    protected TranslationFileLocator locator;
+    private final TranslationFileLocator locator;
+
+    public YamlTranslationFileLoaderImpl(TranslationFileLocator locator) {
+        this.locator = locator;
+    }
 
     @Override
     public Map<String, String> loadFile(String filePath) throws IOException {
-        InputStream input = this.locator.locateFile(filePath);
+        InputStream input = locator.locateFile(filePath);
         Map<Object, Object> loadedMap = (Map<Object, Object>) new Yaml().load(input);
         return this.parseMap(loadedMap, null);
     }
@@ -50,17 +54,12 @@ public class YamlTranslationFileLoaderImpl implements TranslationFileLoader {
                 if (value instanceof String) {
                     parsedMap.put(mapKey, (String) value);
                 } else if (value instanceof Map) {
-                    parsedMap.putAll(this.parseMap((Map<Object, Object>) value, mapKey));
+                    parsedMap.putAll(parseMap((Map<Object, Object>) value, mapKey));
                 }
             }
         }
 
         return parsedMap;
-    }
-
-    @Override
-    public void setLocator(TranslationFileLocator locator) {
-        this.locator = locator;
     }
 
 }

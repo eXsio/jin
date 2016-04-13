@@ -23,21 +23,23 @@
  */
 package pl.exsio.jin.pluralizator.registry;
 
+import com.google.common.base.Optional;
+import pl.exsio.jin.pluralizator.TranslationPluralizator;
+
 import java.util.HashMap;
 import java.util.Map;
-import pl.exsio.jin.pluralizator.TranslationPluralizator;
 
 public class TranslationPluralizatorRegistryImpl implements TranslationPluralizatorRegistry {
 
-    protected Map<String, TranslationPluralizator> pluralizators;
+    private Map<String, TranslationPluralizator> pluralizators;
 
     public TranslationPluralizatorRegistryImpl() {
-        this.pluralizators = new HashMap();
+        pluralizators = new HashMap();
     }
 
     @Override
     public Map<String, TranslationPluralizator> getPluralizators() {
-        return this.pluralizators;
+        return pluralizators;
     }
 
     @Override
@@ -49,18 +51,14 @@ public class TranslationPluralizatorRegistryImpl implements TranslationPluraliza
 
     @Override
     public void registerPluralizator(String lang, TranslationPluralizator pluralizator) {
-        if (this.pluralizators != null) {
-            this.pluralizators.put(lang, pluralizator);
+        if (pluralizators != null) {
+            pluralizators.put(lang, pluralizator);
         }
     }
 
     @Override
-    public TranslationPluralizator getPluralizator(String lang) {
-        if (this.pluralizators.containsKey(lang)) {
-            return this.pluralizators.get(lang);
-        } else {
-            return null;
-        }
+    public Optional<TranslationPluralizator> getPluralizator(String lang) {
+        return Optional.fromNullable(pluralizators.get(lang));
     }
 
 }

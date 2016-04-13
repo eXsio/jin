@@ -30,7 +30,7 @@ import java.util.Map;
 import pl.exsio.jin.file.loader.TranslationFileLoader;
 import pl.exsio.jin.file.locator.TranslationFileLocator;
 import pl.exsio.jin.locale.provider.LocaleProvider;
-import pl.exsio.jin.locale.provider.provider.LocaleProviderProvider;
+import pl.exsio.jin.locale.provider.factory.LocaleProviderFactory;
 import pl.exsio.jin.pluralizator.TranslationPluralizator;
 import pl.exsio.jin.pluralizator.registry.TranslationPluralizatorRegistry;
 import pl.exsio.jin.translationcontext.TranslationContext;
@@ -39,13 +39,13 @@ import pl.exsio.jin.translator.Translator;
 
 public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
 
-    protected final Map<Class, String> prefixMap;
+    private final Map<Class, String> prefixMap;
 
-    protected final List<Class> internalClasses;
+    private final List<Class> internalClasses;
 
     public TranslationPrefixManagerImpl() {
-        this.prefixMap = new HashMap();
-        this.internalClasses = new LinkedList() {
+        prefixMap = new HashMap();
+        internalClasses = new LinkedList() {
             {
                 add(TranslationPrefixManager.class);
                 add(Translator.class);
@@ -56,34 +56,34 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
                 add(TranslationFileLoader.class);
                 add(TranslationFileLocator.class);
                 add(LocaleProvider.class);
-                add(LocaleProviderProvider.class);
+                add(LocaleProviderFactory.class);
             }
         };
     }
 
     @Override
     public String getPrefixForTranslatedClass() {
-        Class translatedClass = this.getCallingClass();
+        Class translatedClass = getCallingClass();
         if (translatedClass != null) {
-            if (!this.prefixMap.containsKey(translatedClass)) {
-                this.updateMap(translatedClass);
+            if (!prefixMap.containsKey(translatedClass)) {
+                updateMap(translatedClass);
             }
-            return this.prefixMap.get(translatedClass);
+            return prefixMap.get(translatedClass);
         } else {
             return "";
         }
     }
 
-    protected void updateMap(Class translatedClass) {
-        this.prefixMap.put(translatedClass, TranslationPrefixRetriever.getTranslationPrefix(translatedClass));
+    private void updateMap(Class translatedClass) {
+        prefixMap.put(translatedClass, TranslationPrefixRetriever.getTranslationPrefix(translatedClass));
     }
 
-    protected Class getCallingClass() {
+    private Class getCallingClass() {
         StackTraceElement[] stackTrace = new Exception().getStackTrace();
         for (StackTraceElement element : stackTrace) {
             try {
                 Class candidateClass = Class.forName(element.getClassName());
-                if (!this.isInternalClass(candidateClass)) {
+                if (!isInternalClass(candidateClass)) {
                     return candidateClass;
                 }
             } catch (ClassNotFoundException ex) {
@@ -94,8 +94,8 @@ public class TranslationPrefixManagerImpl implements TranslationPrefixManager {
         return null;
     }
 
-    protected boolean isInternalClass(Class candidateClass) {
-        for (Class internalClass : this.internalClasses) {
+    private boolean isInternalClass(Class candidateClass) {
+        for (Class internalClass : internalClasses) {
             if (internalClass.isAssignableFrom(candidateClass) || internalClass.equals(candidateClass)) {
                 return true;
             }

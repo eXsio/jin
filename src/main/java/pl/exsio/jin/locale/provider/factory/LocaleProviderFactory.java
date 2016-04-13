@@ -21,21 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package pl.exsio.jin.locale.provider.provider;
+package pl.exsio.jin.locale.provider.factory;
 
 import pl.exsio.jin.locale.provider.LocaleProvider;
 
-public class DefaultLocaleProviderProviderImpl implements LocaleProviderProvider {
+/**
+ *
+ * @author exsio
+ */
+public interface LocaleProviderFactory {
 
-    protected final LocaleProvider provider;
-
-    public DefaultLocaleProviderProviderImpl(LocaleProvider provider) {
-        this.provider = provider;
-    }
-
-    @Override
-    public LocaleProvider getLocaleProvider() {
-        return this.provider;
-    }
+    LocaleProvider getLocaleProvider();
 
 }

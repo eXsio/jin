@@ -34,6 +34,4 @@ import pl.exsio.jin.file.locator.TranslationFileLocator;
 public interface TranslationFileLoader {
 
     Map<String, String> loadFile(String filePath) throws IOException;
-
-    void setLocator(TranslationFileLocator locator);
 }

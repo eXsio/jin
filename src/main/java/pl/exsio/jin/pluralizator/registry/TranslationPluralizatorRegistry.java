@@ -24,6 +24,8 @@
 package pl.exsio.jin.pluralizator.registry;
 
 import java.util.Map;
+
+import com.google.common.base.Optional;
 import pl.exsio.jin.pluralizator.TranslationPluralizator;
 
 /**
@@ -38,5 +40,5 @@ public interface TranslationPluralizatorRegistry {
 
     void registerPluralizator(String lang, TranslationPluralizator pluralizator);
 
-    TranslationPluralizator getPluralizator(String lang);
+    Optional<TranslationPluralizator> getPluralizator(String lang);
 }
