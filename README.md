@@ -92,15 +92,11 @@ There are 2 ways to use Jin:
 Here is the full initialization example:
 
 ```
-    TranslatorImpl translator = new TranslatorImpl();
-    TranslationFileLoader loader = new YamlTranslationFileLoaderImpl();
-    loader.setLocator(new DefaultTranslationFileLocatorImpl());
-    translator.setLoader(loader);
-    translator.setLocaleProviderProvider(
-        new DefaultLocaleProviderProviderImpl(
-            new DefaultLocaleProviderImpl("en")
-        )
-    );
+    
+    TranslationFileLoader loader = new YamlTranslationFileLoaderImpl(new DefaultTranslationFileLocatorImpl());
+    TranslatorImpl translator = new TranslatorImpl(loader, new DefaultLocaleProviderFactoryImpl(
+                                                          new DefaultLocaleProviderImpl("en")
+                                                  ));
     TranslationPluralizatorRegistry pluralizators = new TranslationPluralizatorRegistryImpl();
     pluralizators.setPluralizators(new HashMap() {
         {
