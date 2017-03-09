@@ -15,79 +15,23 @@ Jin has also simple pluralization mechanizm. It can take something like this: "%
 
 If You want to pluralize in other language, you have to implement your own TranslationPluralizer (best done by extending existing AbstractTranslationPluralizerImpl) and register it in TranslationPluralizerRegistry.
 
-### Usage
-There are 2 ways to use Jin:
-   -  By calling Translator object directly:
+### Instalation
 
-   ```
-    Translator::translate(String subject);
-    
-    Translator::pluralize(String options, int count);
-    ```
-    
-   - Or by using static TranslationContext:
-   
-   ```
-    import static pl.exsio.jin.translationcontext.TranslationContext.t;
-    import static pl.exsio.jin.translationcontext.TranslationContext.pluralize;
-    
-    t(String subject);
-    pluralize(String options, int count);
-    ```
-    
-    You have to remember that as the TranslationContext uses static imports, it can use only one Translator (the one, that was initialized last). You can of course manually set the Translator object using static
-    
-    ```
-    TranslationContext::setTranslator(Translator translator);
-    ```
-    
-    ---
-    
-    There is also a feature called ```TranslationPrefix```. It is obvious that You'll want to use the translation service multiple times in one class (eg. when creating a table, You have to translate all the column headers). It would be pointless to create a long translation string for each column (eg. "en.someclass.sometable.somecolumn"). Here comes the ``` @TranslationPrefix("some.prefix")  ``` annotation. You can annotate the class with it, and on every call to ```TranslationContext::t(String subject)``` or ```Translator::translate(String subject)``` the prefix will be appended to the beginning of the subject. 
-    
-    The full example of usage:
-    
-    Translated class:
-    
-    ```
-    
-   package somepackage;
 
-   import pl.exsio.jin.annotation.TranslationPrefix;
-   import static pl.exsio.jin.translationcontext.TranslationContext.t;
-   import pl.exsio.jin.translator.Translator;
-
-   @TranslationPrefix("somepackage.someclass")
-   public class SomeClass {
-      
-      private final Translator translator;
-  
-      public SomeClass(Translator translator) {
-          this.translator = translator;
-      }
-      
-      public void useTranslatorExample() {
-          System.out.append(this.translator.translate("translator_usage"));
-      }
-      
-      public void useTranslationContextExample() {
-          System.out.println(t("translation_context_usage"));
-      }
-  }
-        
-   ```
-   
-   YAML translation  file:
-   
-   ```
-   somepackage:
-      someclass:
-        translator_usage: Translator usage translation
-        translation_context_usage: Translation Context usage translation
-   
-   ```
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     
-### Installation / Initialization
+    <dependency>
+            <groupId>com.github.eXsio</groupId>
+            <artifactId>jin</artifactId>
+            <version>1.0.2</version>
+    </dependency>
+    
+### First Steps    
 
 Here is the full initialization example:
 
@@ -220,6 +164,78 @@ pl.exsio.jin.ex.TranslationInitializationException
 
 After initializing the Translator sets TranslatorContext's Translator instance to itself.
 
+### Usage
+There are 2 ways to use Jin:
+   -  By calling Translator object directly:
+
+   ```
+    Translator::translate(String subject);
+    
+    Translator::pluralize(String options, int count);
+    ```
+    
+   - Or by using static TranslationContext:
+   
+   ```
+    import static pl.exsio.jin.translationcontext.TranslationContext.t;
+    import static pl.exsio.jin.translationcontext.TranslationContext.pluralize;
+    
+    t(String subject);
+    pluralize(String options, int count);
+    ```
+    
+    You have to remember that as the TranslationContext uses static imports, it can use only one Translator (the one, that was initialized last). You can of course manually set the Translator object using static
+    
+    ```
+    TranslationContext::setTranslator(Translator translator);
+    ```
+    
+    ---
+    
+    There is also a feature called ```TranslationPrefix```. It is obvious that You'll want to use the translation service multiple times in one class (eg. when creating a table, You have to translate all the column headers). It would be pointless to create a long translation string for each column (eg. "en.someclass.sometable.somecolumn"). Here comes the ``` @TranslationPrefix("some.prefix")  ``` annotation. You can annotate the class with it, and on every call to ```TranslationContext::t(String subject)``` or ```Translator::translate(String subject)``` the prefix will be appended to the beginning of the subject. 
+    
+    The full example of usage:
+    
+    Translated class:
+    
+    ```
+    
+   package somepackage;
+
+   import pl.exsio.jin.annotation.TranslationPrefix;
+   import static pl.exsio.jin.translationcontext.TranslationContext.t;
+   import pl.exsio.jin.translator.Translator;
+
+   @TranslationPrefix("somepackage.someclass")
+   public class SomeClass {
+      
+      private final Translator translator;
+  
+      public SomeClass(Translator translator) {
+          this.translator = translator;
+      }
+      
+      public void useTranslatorExample() {
+          System.out.append(this.translator.translate("translator_usage"));
+      }
+      
+      public void useTranslationContextExample() {
+          System.out.println(t("translation_context_usage"));
+      }
+  }
+        
+   ```
+   
+   YAML translation  file:
+   
+   ```
+   somepackage:
+      someclass:
+        translator_usage: Translator usage translation
+        translation_context_usage: Translation Context usage translation
+   
+   ```
+    
 ### BUGS
 
 If You find any bugs, feel free to submit PR or create an issue on GitHub: https://github.com/eXsio/jin
