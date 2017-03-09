@@ -1,0 +1,7 @@
+codecov:
+  token: 5377e63e-6173-4e5b-bd55-200b907d6890
+  branch: master
+comment:
+  layout: header, changes, diff
+coverage:
+  status: {}
