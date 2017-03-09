@@ -1,3 +1,22 @@
 language: java
 script: mvn test -f pom.xml
 sudo: false
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "VMjedxd0S9Z64IukdoL5XL6G076vRe/8I7gBkVEtG5Nv2KWzHSK7g8Ccn1UjjT3O8Gnns6LFBYBIrmyfa9iPq7Jwt6Zh8oFt2Y7DDfUACyLbY/3JnVAXOF0Q8nVCVqnzjV2XGNHCKypmmg+g4tQvJwF2mxLs6lkKNDiI7Y4AO48="
+
+addons:
+  coverity_scan:
+    project:
+      name: "eXsio/jin"
+      description: "Build submitted via Travis CI"
+    notification_email: noneedto@notify.me
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: master
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
