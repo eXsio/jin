@@ -1,5 +1,7 @@
 # Jin
 [![Build Status](https://travis-ci.org/eXsio/jin.svg)](https://travis-ci.org/eXsio/jin)
+[![Coverity Status](https://scan.coverity.com/projects/12002/badge.svg?flat=1)](https://scan.coverity.com/projects/exsio-jin)
+[![codecov](https://codecov.io/gh/eXsio/jin/branch/master/graph/badge.svg)](https://codecov.io/gh/eXsio/jin)
 
 ### Overview
 
